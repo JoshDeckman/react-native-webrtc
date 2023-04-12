@@ -76,6 +76,13 @@ class MediaStreamTrack extends defineCustomEventTarget(...MEDIA_STREAM_TRACK_EVE
         WebRTCModule.mediaStreamTrackSwitchCamera(this.id);
     }
 
+    switchFlash(){
+    if (this.kind !== 'video') {
+      throw new Error('Only implemented for video tracks');
+    }
+    WebRTCModule.mediaStreamTrackFlash(this.id);
+    }
+
     applyConstraints() {
         throw new Error('Not implemented.');
     }
