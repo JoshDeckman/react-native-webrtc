@@ -58,13 +58,13 @@ class GetUserMediaImpl {
 
         boolean camera2supported = false;
 
-        try {
-            camera2supported = Camera2Enumerator.isSupported(reactContext);
-        } catch (Throwable tr) {
-            // Some devices will crash here with: Fatal Exception: java.lang.AssertionError: Supported FPS ranges cannot be null.
-            // Make sure we don't.
-            Log.w(TAG, "Error checking for Camera2 API support.", tr);
-        }
+//        try {
+//            camera2supported = Camera2Enumerator.isSupported(reactContext);
+//        } catch (Throwable tr) {
+//            // Some devices will crash here with: Fatal Exception: java.lang.AssertionError: Supported FPS ranges cannot be null.
+//            // Make sure we don't.
+//            Log.w(TAG, "Error checking for Camera2 API support.", tr);
+//        }
 
         if (camera2supported) {
             Log.d(TAG, "Creating video capturer using Camera2 API.");
@@ -243,6 +243,14 @@ class GetUserMediaImpl {
         if (track != null && track.videoCaptureController instanceof CameraCaptureController) {
             CameraCaptureController cameraCaptureController = (CameraCaptureController) track.videoCaptureController;
             cameraCaptureController.switchCamera();
+        }
+    }
+
+    void switchFlash(String trackId){
+        TrackPrivate track = tracks.get(trackId);
+        if (track != null && track.videoCaptureController instanceof CameraCaptureController) {
+            CameraCaptureController cameraCaptureController = (CameraCaptureController) track.videoCaptureController;
+            cameraCaptureController.switchFlash();
         }
     }
 

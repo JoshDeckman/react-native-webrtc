@@ -19,7 +19,8 @@ public class CameraCaptureController extends AbstractVideoCaptureController {
         = CameraCaptureController.class.getSimpleName();
 
     private boolean isFrontFacing;
-
+    private boolean flashEnabled = false;
+    private MyCameraCapturer myVideoCapturer;
     private final CameraEnumerator cameraEnumerator;
     private final ReadableMap constraints;
 
@@ -51,7 +52,7 @@ public class CameraCaptureController extends AbstractVideoCaptureController {
             if (deviceCount < 2) {
                 return;
             }
-
+            this.flashEnabled = false;
             // The usual case.
             if (deviceCount == 2) {
                 capturer.switchCamera(new CameraVideoCapturer.CameraSwitchHandler() {
@@ -174,6 +175,9 @@ public class CameraCaptureController extends AbstractVideoCaptureController {
             if (videoCapturer != null) {
                 Log.d(TAG, message + " succeeded");
                 this.isFrontFacing = cameraEnumerator.isFrontFacing(name);
+
+                this.myVideoCapturer = (MyCameraCapturer) videoCapturer;
+
                 return videoCapturer;
             } else {
                 Log.d(TAG, message + " failed");
@@ -190,6 +194,9 @@ public class CameraCaptureController extends AbstractVideoCaptureController {
                 if (videoCapturer != null) {
                     Log.d(TAG, message + " succeeded");
                     this.isFrontFacing = cameraEnumerator.isFrontFacing(name);
+
+                    this.myVideoCapturer = (MyCameraCapturer) videoCapturer;
+
                     return videoCapturer;
                 } else {
                     Log.d(TAG, message + " failed");
@@ -202,5 +209,10 @@ public class CameraCaptureController extends AbstractVideoCaptureController {
         Log.w(TAG, "Unable to identify a suitable camera.");
 
         return null;
+    }
+
+     public void switchFlash(){
+        this.myVideoCapturer.switchFlash(!flashEnabled);
+        flashEnabled = !flashEnabled;
     }
 }

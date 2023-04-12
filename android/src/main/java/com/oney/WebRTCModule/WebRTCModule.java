@@ -609,6 +609,14 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void mediaStreamTrackFlash(String id){
+        MediaStreamTrack track = getLocalTrack(id);
+        if (track != null) {
+            getUserMediaImpl.switchFlash(id);
+        }
+    }
+
+    @ReactMethod
     public void peerConnectionSetConfiguration(ReadableMap configuration,
                                                int id) {
         ThreadUtils.runOnExecutor(() -> {
